@@ -13,7 +13,7 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
-import { enviroment } from '../../enviroments/enviroment';
+import { enviroment } from '../../environments/enviroment';
 
 @Component({
   selector: 'app-register',
