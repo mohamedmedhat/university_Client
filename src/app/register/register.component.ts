@@ -13,7 +13,7 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
-import { enviroment } from '../../environments/enviroment';
+import { userEnviroment } from '../../environments/enviroment';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -33,7 +33,7 @@ import { ToastrService } from 'ngx-toastr';
 export class RegisterComponent {
   registerForm: FormGroup;
   formTitle = 'Register';
-  url = enviroment.registerRequestUrl;
+  url = userEnviroment.registerRequestUrl;
 
   constructor(
     private fb: FormBuilder,
