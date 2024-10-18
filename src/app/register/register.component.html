@@ -1,0 +1,27 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+    <h3 class="register-form-title">{{ formTitle }}</h3>
+    
+    <input formControlName="name" type="text" placeholder="Name" />
+    <div *ngIf="registerForm.get('name')?.invalid && (registerForm.get('name')?.touched || registerForm.get('name')?.dirty)">
+      <small *ngIf="registerForm.get('name')?.errors?.['required']">Name is required.</small>
+    </div>    
+    
+    <input formControlName="email" type="email" placeholder="Email" />
+    <div *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.touched || registerForm.get('email')?.dirty)">
+      <small *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</small>
+      <small *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format.</small>
+    </div>
+    
+    <input formControlName="password" type="password" placeholder="Password" />
+    <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.touched || registerForm.get('password')?.dirty)">
+      <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
+      <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long.</small>
+    </div>
+    
+    <div class="have-account">
+      <p>Do you have an account? Login now 👉🏼</p>
+      <a [routerLink]="['/login']">Login</a>
+    </div>
+    
+    <button type="submit" [disabled]="registerForm.invalid">Sign Up</button>
+</form>
