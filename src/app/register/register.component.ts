@@ -14,6 +14,7 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { enviroment } from '../../environments/enviroment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -37,10 +38,11 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.registerForm = this.fb.group({
-      username: ['', [Validators.required, Validators.maxLength(40)]],
+      name: ['', [Validators.required, Validators.maxLength(40)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
@@ -52,9 +54,11 @@ export class RegisterComponent {
 
       this.http.post(this.url, formData).subscribe({
         next: () => {
+          this.toastr.success("register successfully", "Successfully")
           this.router.navigate(['/login']);
         },
         error: (error) => {
+          this.toastr.error("register failed", "Failed")
           console.error('Registration error', error);
         },
       });

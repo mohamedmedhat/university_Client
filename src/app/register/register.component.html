@@ -1,10 +1,10 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
     <h3 class="register-form-title">{{ formTitle }}</h3>
     
-    <input formControlName="username" type="text" placeholder="Username" />
-    <div *ngIf="registerForm.get('username')?.invalid && (registerForm.get('username')?.touched || registerForm.get('username')?.dirty)">
-      <small *ngIf="registerForm.get('username')?.errors?.['required']">Username is required.</small>
-    </div>
+    <input formControlName="name" type="text" placeholder="Name" />
+    <div *ngIf="registerForm.get('name')?.invalid && (registerForm.get('name')?.touched || registerForm.get('name')?.dirty)">
+      <small *ngIf="registerForm.get('name')?.errors?.['required']">Name is required.</small>
+    </div>    
     
     <input formControlName="email" type="email" placeholder="Email" />
     <div *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.touched || registerForm.get('email')?.dirty)">
