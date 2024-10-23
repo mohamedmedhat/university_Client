@@ -1,0 +1,16 @@
+<p>product-detail works!</p>
+<p>this is product id => {{ product()?.id }}</p>
+<p>this is product name => {{ product()?.name }}</p>
+<p>this is product price => {{ product()?.price }}</p>
+<p>
+  this is product image path =>
+  <img [src]="product()?.image?.filePath" />
+</p>
+<p>
+  this is product createdAt =>
+  {{ convertTimeStampToLocaleDateString(product()?.createdAt) }}
+</p>
+<p>
+  this is product updatedAt =>
+  {{ convertTimeStampToLocaleDateString(product()?.updatedAt) }}
+</p>

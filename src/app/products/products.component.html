@@ -1,0 +1,78 @@
+<div class="add-product" *ngIf="!isEditMode()">
+    <h2>Add New Product</h2>
+    <form (ngSubmit)="addProduct()" [formGroup]="productForm">
+      <input formControlName="name" type="text" placeholder="Product Name" />
+      <div *ngIf="productForm.get('name')?.invalid && (productForm.get('name')?.touched || productForm.get('name')?.dirty)">
+        <small *ngIf="productForm.get('name')?.errors?.['required']">Name is required.</small>
+      </div>
+      <input formControlName="price" type="number" placeholder="Price" />
+      <div *ngIf="productForm.get('price')?.invalid && (productForm.get('price')?.touched || productForm.get('price')?.dirty)">
+        <small *ngIf="productForm.get('price')?.errors?.['required']">Price is required.</small>
+      </div>
+      <input type="file" (change)="onFileChange($event)" />
+      <div *ngIf="fileInvalid">
+        <small>Image is required.</small>
+      </div>
+      <button type="submit" [disabled]="productForm.invalid">Add Product</button>
+    </form>
+  </div>
+
+  <div class="update-product" *ngIf="isEditMode()">
+    <h2>Update Product</h2>
+    <form (ngSubmit)="updateProduct()" [formGroup]="productForm">
+      <input formControlName="name" type="text" placeholder="Product Name" />
+      <div *ngIf="productForm.get('name')?.invalid && (productForm.get('name')?.touched || productForm.get('name')?.dirty)">
+        <small *ngIf="productForm.get('name')?.errors?.['required']">Name is required.</small>
+      </div>
+      <input formControlName="price" type="number" placeholder="Price" />
+      <div *ngIf="productForm.get('price')?.invalid && (productForm.get('price')?.touched || productForm.get('price')?.dirty)">
+        <small *ngIf="productForm.get('price')?.errors?.['required']">Price is required.</small>
+      </div>
+      <input type="file" (change)="onFileChange($event)" />
+      <div *ngIf="fileInvalid">
+        <small>Image is required.</small>
+      </div>
+      <button type="submit" [disabled]="productForm.invalid">Update Product</button>
+    </form>
+  </div>
+
+  <table class="product-table" id="product-table-analysis">
+    <tbody>
+        <tr>
+            <td>total products</td>
+            <td colspan="5">{{totalProducts()}}</td>
+          </tr>
+          <tr>
+            <td>total price</td>
+            <td colspan="5">{{totalPrice()}}</td>
+          </tr>
+    </tbody>
+  </table>
+  
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Creation Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let product of (products()?.content || [])">
+      <tr [attr.key]="product.id">
+        <td><img [src]="product.image" alt="Product Image"></td>
+        <td (click)="showProductDetail(product.id)">{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <td>{{convertTimeStampDateToStringDate(product.createdAt)}}</td>
+        <td>
+          <span class="edit-icon" (click)="showEditForm(product.id)">✏️</span>
+          <span class="delete-icon" (click)="deleteProduct(product.id)">🗑️</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div *ngIf="loading()">
+    Loading...
+  </div>

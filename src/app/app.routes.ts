@@ -3,6 +3,8 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
+import { ProductsComponent } from './products/products.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
 
 export const routes: Routes = [
   {
@@ -19,6 +21,16 @@ export const routes: Routes = [
     path: 'login',
     title: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'products',
+    title: 'products',
+    component: ProductsComponent,
+  },
+  {
+    path: 'product-detail/:id',
+    title: 'productDetail',
+    component: ProductDetailComponent,
   },
   {
     path: '**',
