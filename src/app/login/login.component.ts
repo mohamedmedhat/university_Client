@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Component, signal } from '@angular/core';
 import {
   FormBuilder,
@@ -13,8 +13,8 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
-import { userEnviroment } from '../../environments/enviroment';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../api/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -27,18 +27,18 @@ import { ToastrService } from 'ngx-toastr';
     ReactiveFormsModule,
     HttpClientModule,
   ],
+  providers: [AuthService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   loginForm: FormGroup;
   loading = signal(false);
-  url = userEnviroment.loginRequestUrl;
-  formTitle = 'Login'
+  formTitle = 'Login';
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
+    private authService: AuthService,
     private router: Router,
     private toastr: ToastrService
   ) {
@@ -50,19 +50,22 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const formData = this.loginForm.value;
       this.loading.set(true);
-      this.http.post(this.url, formData).subscribe({
+      this.authService.login(this.loginForm).subscribe({
         next: () => {
-          this.toastr.success("login successfully", "Successfully")
+          this.toastr.success('login successfully', 'Successfully');
           this.router.navigate(['/']);
         },
         error: (error) => {
-          this.toastr.error("login failed", "Failed")
-          console.log('failed to login'+error);
+          this.loading.set(false);
+          this.toastr.error('login failed', 'Failed');
+          console.log('failed to login' + error);
+        },
+        complete: () => {
+          this.loading.set(false);
         },
       });
-    }else{
+    } else {
       this.loginForm.markAllAsTouched();
     }
   }

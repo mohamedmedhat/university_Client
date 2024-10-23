@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { Component, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,8 +13,8 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
-import { userEnviroment } from '../../environments/enviroment';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../api/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -27,17 +27,18 @@ import { ToastrService } from 'ngx-toastr';
     HttpClientModule,
     ReactiveFormsModule,
   ],
+  providers: [AuthService],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
   registerForm: FormGroup;
   formTitle = 'Register';
-  url = userEnviroment.registerRequestUrl;
+  loading = signal<boolean>(false);
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
+    private authService: AuthService,
     private router: Router,
     private toastr: ToastrService
   ) {
@@ -50,16 +51,19 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      const formData = this.registerForm.value;
-
-      this.http.post(this.url, formData).subscribe({
+      this.loading.set(true);
+      this.authService.register(this.registerForm).subscribe({
         next: () => {
-          this.toastr.success("register successfully", "Successfully")
+          this.toastr.success('register successfully', 'Successfully');
           this.router.navigate(['/login']);
         },
         error: (error) => {
-          this.toastr.error("register failed", "Failed")
+          this.loading.set(false);
+          this.toastr.error('register failed', 'Failed');
           console.error('Registration error', error);
+        },
+        complete: () => {
+          this.loading.set(false);
         },
       });
     } else {
