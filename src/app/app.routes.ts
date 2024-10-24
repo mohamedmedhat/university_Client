@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { HomeComponent } from './home/home.component';
-import { ProductsComponent } from './products/products.component';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { RegisterComponent } from './features/auth/register/register.component';
+import { LoginComponent } from './features/auth/login/login.component';
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
+import { HomeComponent } from './features/home/home.component';
+import { ProductDetailComponent } from './features/products/product-detail/product-detail.component';
+import { ProductTableComponent } from './features/products/product-table/products.component';
 
 export const routes: Routes = [
   {
@@ -25,7 +25,7 @@ export const routes: Routes = [
   {
     path: 'products',
     title: 'products',
-    component: ProductsComponent,
+    component: ProductTableComponent,
   },
   {
     path: 'product-detail/:id',

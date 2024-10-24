@@ -10,9 +10,11 @@
         <small *ngIf="productForm.get('price')?.errors?.['required']">Price is required.</small>
       </div>
       <input type="file" (change)="onFileChange($event)" />
-      <div *ngIf="fileInvalid">
-        <small>Image is required.</small>
-      </div>
+      @if(fileInvalid){
+        <div>
+          <small>Image is required.</small>
+        </div>
+      }
       <button type="submit" [disabled]="productForm.invalid">Add Product</button>
     </form>
   </div>
@@ -64,7 +66,7 @@
         <td><img [src]="product.image" alt="Product Image"></td>
         <td (click)="showProductDetail(product.id)">{{product.name}}</td>
         <td>{{product.price}}</td>
-        <td>{{convertTimeStampDateToStringDate(product.createdAt)}}</td>
+        <td>{{ product.createdAt | convertTimeStampDateToStringDate }}</td>
         <td>
           <span class="edit-icon" (click)="showEditForm(product.id)">✏️</span>
           <span class="delete-icon" (click)="deleteProduct(product.id)">🗑️</span>

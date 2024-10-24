@@ -8,34 +8,32 @@ import {
 } from '@angular/forms';
 import {
   Router,
-  RouterLink,
-  RouterLinkActive,
-  RouterOutlet,
+  RouterModule,
 } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ProductService } from '../api/product.service';
+import { ProductService } from '../../../api/product.service';
 import { HttpClientModule } from '@angular/common/http';
-import { IProducts } from '../interfaces/product.interface';
+import { IProductsResponse } from '../../../shared/models/product.interface';
+import { ConvertTimeStampDateToStringDatePipe } from '../../../shared/pipes/convert-time-stamp-date-to-string-date.pipe';
 
 @Component({
   selector: 'app-products',
   standalone: true,
   imports: [
-    RouterLink,
-    RouterLinkActive,
+    RouterModule,
     CommonModule,
     HttpClientModule,
-    RouterOutlet,
     ReactiveFormsModule,
+    ConvertTimeStampDateToStringDatePipe
   ],
   providers: [ProductService],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })
-export class ProductsComponent {
+export class ProductTableComponent {
   tableHeader = 'Product Items';
   productForm: FormGroup;
-  products = signal<IProducts | null>(null);
+  products = signal<IProductsResponse | null>(null);
   totalProducts = signal<number>(0);
   totalPrice = signal<number>(0);
   fileInvalid: boolean = false;
@@ -81,10 +79,6 @@ export class ProductsComponent {
         console.error('Error in getAllProducts:', err);
       },
     });
-  }
-
-  convertTimeStampDateToStringDate(timestamp: Date | string) {
-    return new Date(timestamp).toLocaleDateString();
   }
 
   onFileChange(event: any) {
