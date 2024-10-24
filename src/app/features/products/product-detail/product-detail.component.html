@@ -8,9 +8,9 @@
 </p>
 <p>
   this is product createdAt =>
-  {{ convertTimeStampToLocaleDateString(product()?.createdAt) }}
+  {{ product()?.createdAt | convertTimeStampDateToStringDate }}
 </p>
 <p>
   this is product updatedAt =>
-  {{ convertTimeStampToLocaleDateString(product()?.updatedAt) }}
+  {{ product()?.updatedAt | convertTimeStampDateToStringDate }}
 </p>

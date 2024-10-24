@@ -14,27 +14,27 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../api/auth.service';
+import { AuthService } from '../../../api/auth.service';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-login',
   standalone: true,
   imports: [
-    RouterOutlet,
     RouterLink,
     RouterLinkActive,
+    RouterOutlet,
     CommonModule,
-    HttpClientModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [AuthService],
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
 })
-export class RegisterComponent {
-  registerForm: FormGroup;
-  formTitle = 'Register';
-  loading = signal<boolean>(false);
+export class LoginComponent {
+  loginForm: FormGroup;
+  loading = signal(false);
+  formTitle = 'Login';
 
   constructor(
     private fb: FormBuilder,
@@ -42,33 +42,31 @@ export class RegisterComponent {
     private router: Router,
     private toastr: ToastrService
   ) {
-    this.registerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.maxLength(40)]],
+    this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
   onSubmit() {
-    if (this.registerForm.valid) {
+    if (this.loginForm.valid) {
       this.loading.set(true);
-      this.authService.register(this.registerForm).subscribe({
+      this.authService.login(this.loginForm).subscribe({
         next: () => {
-          this.toastr.success('register successfully', 'Successfully');
-          this.router.navigate(['/login']);
+          this.toastr.success('login successfully', 'Successfully');
+          this.router.navigate(['/']);
         },
         error: (error) => {
           this.loading.set(false);
-          this.toastr.error('register failed', 'Failed');
-          console.error('Registration error', error);
+          this.toastr.error('login failed', 'Failed');
+          console.log('failed to login' + error);
         },
         complete: () => {
           this.loading.set(false);
         },
       });
     } else {
-      console.log('Form is invalid');
-      this.registerForm.markAllAsTouched();
+      this.loginForm.markAllAsTouched();
     }
   }
 }

@@ -1,4 +1,4 @@
-export interface IProducts {
+export interface IProductsResponse {
   content: {
     id: string;
     name: string;
@@ -15,7 +15,7 @@ export interface IProducts {
   totalElements: number;
 }
 
-export interface IProduct {
+export interface IProductResponse {
   id: string;
   name: string;
   price: number;

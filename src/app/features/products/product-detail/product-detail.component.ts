@@ -1,20 +1,21 @@
 import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductService } from '../api/product.service';
-import { IProduct } from '../interfaces/product.interface';
+import { ProductService } from '../../../api/product.service';
+import { IProductResponse } from '../../../shared/models/product.interface';
+import { ConvertTimeStampDateToStringDatePipe } from '../../../shared/pipes/convert-time-stamp-date-to-string-date.pipe';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [HttpClientModule],
+  imports: [HttpClientModule, ConvertTimeStampDateToStringDatePipe],
   providers: [ProductService],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',
 })
 export class ProductDetailComponent implements OnInit {
   loading = signal<boolean>(false);
-  product = signal<IProduct | null>(null);
+  product = signal<IProductResponse | null>(null);
 
   constructor(
     private router: ActivatedRoute,
@@ -36,9 +37,5 @@ export class ProductDetailComponent implements OnInit {
         this.loading.set(false);
       },
     });
-  }
-
-  convertTimeStampToLocaleDateString(timestamp: string | Date | undefined) {
-    return timestamp ? new Date(timestamp).toLocaleDateString() : 'N/A';
   }
 }
