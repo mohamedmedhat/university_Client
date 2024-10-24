@@ -1,0 +1,22 @@
+<div class="products" *ngFor="let product of products()?.content">
+    <app-card 
+      [name]="product.name" 
+      [price]="'$' + product.price" 
+      [dates]="product.createdAt | convertTimeStampDateToStringDate" 
+      [imgUrl]="product.image?.filePath ?? null" 
+      (onClick)="goToMeeting()">
+    </app-card>
+  </div>
+  
+<div class="pagination-controls">
+    <button (click)="prevPage()" [disabled]="page() === 0">Previous</button>
+    
+    <span>Page {{ page() + 1 }} of {{ totalPages() }}</span>
+    
+    <button (click)="nextPage()" [disabled]="page() >= totalPages() - 1">Next</button>
+  
+    <label for="pageSize">Items per page:</label>
+    <select id="pageSize" (change)="changePageSize($event)">
+      <option *ngFor="let size of availablePageSizes" [value]="size">{{ size }}</option>
+    </select>
+  </div>

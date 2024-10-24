@@ -1,1 +1,11 @@
-<p>card works!</p>
+<div class="card">
+    <div class="imgContainer"><img class="product-image" [src]="imgUrl"/></div>
+    <div class="rowtwo">
+        <p>{{name}}</p>
+        <p>{{price}}</p>
+    </div>
+    <div class="rowThree">
+        <span>{{dates}}</span>
+        <button (click) ="handleOnClick()">go to meet</button>
+    </div>
+</div>
