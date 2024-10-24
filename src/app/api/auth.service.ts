@@ -21,4 +21,16 @@ export class AuthService {
     const formData = loginForm.value;
     return this.http.post(url, formData);
   }
+
+  isLogin(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
 }

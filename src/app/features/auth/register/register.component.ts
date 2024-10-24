@@ -7,26 +7,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {
-  Router,
-  RouterLink,
-  RouterLinkActive,
-  RouterOutlet,
-} from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../api/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
-    CommonModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-  ],
+  imports: [RouterModule, CommonModule, HttpClientModule, ReactiveFormsModule],
   providers: [AuthService],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
@@ -50,25 +38,27 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    if (this.registerForm.valid) {
-      this.loading.set(true);
-      this.authService.register(this.registerForm).subscribe({
-        next: () => {
-          this.toastr.success('register successfully', 'Successfully');
-          this.router.navigate(['/login']);
-        },
-        error: (error) => {
-          this.loading.set(false);
-          this.toastr.error('register failed', 'Failed');
-          console.error('Registration error', error);
-        },
-        complete: () => {
-          this.loading.set(false);
-        },
-      });
-    } else {
-      console.log('Form is invalid');
+    if (!this.registerForm.valid) {
       this.registerForm.markAllAsTouched();
+      return;
     }
+
+    this.loading.set(true);
+    this.authService.register(this.registerForm).subscribe({
+      next: () => {
+        this.toastr.success('register successfully', 'Successfully');
+        this.router.navigate(['/auth/login']);
+      },
+      error: (error) => this.handleRegisterError(error),
+      complete: () => {
+        this.loading.set(false);
+      },
+    });
+  }
+
+  private handleRegisterError(error: any) {
+    this.loading.set(false);
+    this.toastr.error('register failed', 'Failed');
+    console.error('Registration error', error);
   }
 }

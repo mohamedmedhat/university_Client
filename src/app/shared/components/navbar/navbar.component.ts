@@ -11,7 +11,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 })
 export class NavbarComponent {
   navbarListItems = [
-    { id: 1, name: 'Products', link: '/products' },
+    { id: 1, name: 'Products', link: '/products/table' },
     { id: 2, name: 'Users', link: '/users' },
     { id: 2, name: 'Meetings', link: '/meetings' },
   ];
