@@ -126,7 +126,7 @@ export class ProductTableComponent {
   }
 
   showProductDetail(productId: string) {
-    this.router.navigate(['/product-detail', productId]);
+    this.router.navigate(['/products/detail', productId]);
   }
 
   showEditForm(id: string) {
