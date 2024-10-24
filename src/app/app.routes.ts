@@ -53,6 +53,14 @@ export const routes: Routes = [
             './features/products/product-detail/product-detail.component'
           ).then((d) => d.ProductDetailComponent),
       },
+      {
+        path: 'show',
+        title: 'productCards',
+        loadComponent: () =>
+          import(
+            './features/products/product-show/product-show.component'
+          ).then((s) => s.ProductShowComponent),
+      },
     ],
   },
   {
